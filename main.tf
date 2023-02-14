@@ -1,5 +1,8 @@
 provider "aws" {
-  region = var.region
+  //region = var.region
+  shared_config_files      = ["/home/ubuntu/.aws/config"]
+  shared_credentials_files = ["/home/ubuntu/.aws/credentials"]
+  profile                  = "default"
 }
 
 data "aws_availability_zones" "available" {}
@@ -58,23 +61,25 @@ module "eks" {
 
   eks_managed_node_groups = {
     one = {
-      name = "node-group-1"
+      name = "cpu"
 
-      instance_types = ["t3.small"]
-
-      min_size     = 1
-      max_size     = 3
-      desired_size = 2
-    }
-
-    two = {
-      name = "node-group-2"
-
-      instance_types = ["t3.small"]
+      instance_types = ["t3.xlarge"]
 
       min_size     = 1
-      max_size     = 2
+      max_size     = 1
       desired_size = 1
     }
+
+    /*
+    two = {
+      name = "gpu"
+
+      instance_types = ["p2.xlarge"]
+
+      min_size     = 1
+      max_size     = 1
+      desired_size = 1
+    }
+    */
   }
 }
